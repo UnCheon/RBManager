@@ -19,6 +19,8 @@ import android.util.Log;
 import ca.uol.aig.fftpack.RealDoubleFFT;
 
 public class BackgroundService extends Service{
+	
+	// test wav file 
 	private static final String AUDIO_FILEPATH = Environment.getExternalStorageDirectory() + "/cashcall/cashcall.wav";
 	
 	Thread mediaThread = null;
@@ -180,7 +182,8 @@ public class BackgroundService extends Service{
 //		Log.i("Mic", "true");
 	}else{
 		Log.i("Mic", "false");
-//		audioManager.setMode(AudioManager.MODE_IN_CALL);
+		
+		audioManager.setMode(AudioManager.MODE_IN_CALL);
 		audioManager.setMicrophoneMute(true);
 	}
 
@@ -199,14 +202,14 @@ public class BackgroundService extends Service{
 		}
 
 		if (max_downy != 1000) {
-//			Log.i("Frequency", "x : " + max_x + "    downy : " + max_downy + "    phoneState : " + phoneState);
+			Log.i("Frequency", "x : " + max_x + "    downy : " + max_downy + "    phoneState : " + phoneState);
 		}
 		
 		
 		if (max_x < 100) {
 			if (fftCounter < 6) {
 				++fftCounter;
-				if (max_x > 38 && max_x < 45) { // skt tone start
+				if (max_x > 38 && max_x < 45) { // skt tone start    
 					phoneState = 2;
 					prev2Time = System.currentTimeMillis();
 				} else if (!((max_x > 8 && max_x < 19) || (max_x > 25 && max_x < 49) || (max_x > 54 && max_x < 58) || (max_x > 68 && max_x < 77) || (max_x > 82 && max_x < 85))) {
@@ -225,13 +228,16 @@ public class BackgroundService extends Service{
 					if (next2Time - prev2Time > 1900) {
 						phoneState = 1;
 					}
+					
 					if (!((max_x > 8 && max_x < 19) || (max_x > 25 && max_x < 49) || (max_x > 54 && max_x < 58)|| (max_x > 68 && max_x < 77) || (max_x > 82 && max_x < 85))) {
+
 						stopFFT();
 					}
 				}
 			}
 		}
 	}
+	
 	
 	private void stopFFT() {
 		Log.i("stop audio", "stop audio was called");
