@@ -17,6 +17,8 @@ import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 import ca.uol.aig.fftpack.RealDoubleFFT;
+import RingbackData;
+
 
 public class BackgroundService extends Service{
 	
@@ -209,10 +211,13 @@ public class BackgroundService extends Service{
 		if (max_x < 100) {
 			if (fftCounter < 6) {
 				++fftCounter;
-				if (max_x > 38 && max_x < 45) { // skt tone start    
+//				if (max_x > 38 && max_x < 45) { // skt tone start
+				if (RingbackData.sktTone(max_x)) { // skt tone start	
+					
 					phoneState = 2;
 					prev2Time = System.currentTimeMillis();
-				} else if (!((max_x > 8 && max_x < 19) || (max_x > 25 && max_x < 49) || (max_x > 54 && max_x < 58) || (max_x > 68 && max_x < 77) || (max_x > 82 && max_x < 85))) {
+//				} else if (!((max_x > 8 && max_x < 19) || (max_x > 25 && max_x < 49) || (max_x > 54 && max_x < 58) || (max_x > 68 && max_x < 77) || (max_x > 82 && max_x < 85))) {
+				} else if (!RingbackData.basicTone(max_x)) {
 					if (fftCounter > 4) {
 						stopFFT();
 					}
