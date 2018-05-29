@@ -1,2 +1,2 @@
-RingBackManager
+RBManager
 ==========
